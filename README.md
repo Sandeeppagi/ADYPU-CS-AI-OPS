@@ -1,12 +1,12 @@
 # ADYPU-CS-AI-OPS
 Repo for AIOPS solutions
 
-###Using Prometheus with Kubernetes
+#### Using Prometheus with Kubernetes
 
-####Introduction
+#### Introduction
 This is basic Prometheus Queries (PromQL) and demonstrates how the Kubernetes architecture may be interrogated. It also introduces a simple means of stressing a cluster and demonstrates how those techniques affect the metrics being stored in the time series database.
 
-####Solution
+#### Solution
 
 1. Log in to the master node:
 
@@ -38,11 +38,11 @@ Status > Targets will show you more information on the targets in the cluster.
  http://[Worker Node Public IP Address]:8080
 ``
 
-####Use the provided PromQL queries to interrogate your cluster
+#### Use the provided PromQL queries to interrogate your cluster
 
-######The following are the suggested PromQL queries you may perform.
+###### The following are the suggested PromQL queries you may perform.
 
-######To measure CPU utilization:
+###### To measure CPU utilization:
 
 ``
 node_cpu_seconds_total
@@ -64,29 +64,29 @@ avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 1
 100 - avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 100
 ``
 
-######To measure memory, use:
+###### To measure memory, use:
 
 ``
 (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes)) / node_memory_MemTotal_bytes * 100
 ``
 
-######Deploy the stress test and vary its replicas to examine changes
+###### Deploy the stress test and vary its replicas to examine changes
 
-######In the terminal emulator session that is established to the Master Node:
+###### In the terminal emulator session that is established to the Master Node:
 
-######Deploy the Stress-Test Deployment:
+###### Deploy the Stress-Test Deployment:
 
 ``
  kubectl create -f stress-test.yaml
 ``
 
-######Interrogate the number of replicas deployed:
+###### Interrogate the number of replicas deployed:
 
 ``
  kubectl get deployments
 ``
 
-######Interrogate the pods running:
+###### Interrogate the pods running:
 
 ``
  kubectl get pods
@@ -95,7 +95,7 @@ avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 1
 Refresh your Prometheus graphs and scale the deployment up and down to vary metrics
 Use refresh on your browser to see the time series metrics change over time.
 
-######Use the following command to increase and decrease the number of replicas running in the stress-test deployment.
+###### Use the following command to increase and decrease the number of replicas running in the stress-test deployment.
 
 ``
  kubectl scale deployment.v1.apps/stress-test --replicas=[from 1 to 50 here]
