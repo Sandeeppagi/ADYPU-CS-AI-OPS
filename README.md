@@ -92,11 +92,68 @@ avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 1
  kubectl get pods
 ``
 
-Refresh your Prometheus graphs and scale the deployment up and down to vary metrics
-Use refresh on your browser to see the time series metrics change over time.
+###### Refresh your Prometheus graphs and scale the deployment up and down to vary metrics
+###### Use refresh on your browser to see the time series metrics change over time.
 
 ###### Use the following command to increase and decrease the number of replicas running in the stress-test deployment.
 
 ``
  kubectl scale deployment.v1.apps/stress-test --replicas=[from 1 to 50 here]
 ``
+###### Start the promql.py program on the master node
+###### From your terminal session on the master node, enter the following command to start the Python program:
+
+``
+ python3 promql.py > promql.out 2> promql.err &
+``
+###### Note: Be sure you use the ampersand after the command so it will run in background on your server.
+
+###### As the promql.py program is running, stress the cluster
+###### To stress the cluster, you may deploy the stress-test deployment with the following command:
+
+``
+ kubectl create -f stress-test.yaml
+``
+
+###### Run the Prometheus dashboard as you vary cluster load
+###### Navigate in your browser to the Prometheus dashboard:
+``
+ http://[Master Node IP]:9090
+``
+###### While the Python program is gathering metrics, use the following command to vary the load by changing the number of replicas:
+
+``
+ kubectl scale deployment.v1.apps/stress-test --replicas=10
+``
+###### You may then increase the number of replicas to 20, 30, 40, and so on.
+
+``
+ kubectl scale deployment.v1.apps/stress-test --replicas=[number here]
+``
+###### If you want to use other PromQL in the Prometheus dashboard, here are the two examples we use in the Python promql.py program:
+
+``
+ 100 - avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 100
+``
+###### And:
+
+``
+ (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes)) / node_memory_MemTotal_bytes * 100
+``
+###### Examine the Python program output
+###### You may look at the promql.py output with any of the following commands:
+
+``
+ tail promql.out
+``
+###### Or:
+
+``
+ more promql.out
+``
+###### Or:
+
+``
+ tail -f promql.out
+``
+ 
