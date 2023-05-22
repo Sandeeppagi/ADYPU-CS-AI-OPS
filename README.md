@@ -156,7 +156,10 @@ avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 1
 ``
  tail -f promql.out
 ``
-
+###### The command to install pip3 is:
+``
+ sudo apt install python3-pip
+``
 ###### Install Sci-Kit and Pandas Python modules
 ###### Use the pip3 command to install Sci-Kit Learn:
 ``
