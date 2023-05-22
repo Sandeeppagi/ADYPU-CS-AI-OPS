@@ -156,4 +156,33 @@ avg(irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) by (instance) * 1
 ``
  tail -f promql.out
 ``
- 
+
+###### Install Sci-Kit and Pandas Python modules
+###### Use the pip3 command to install Sci-Kit Learn:
+``
+ pip3 install scikit-learn
+``
+###### And:
+``
+ pip3 install pandas
+``
+###### Review and run the check.py program
+###### The command to run the program is:
+``
+ python3 check.py
+``
+###### Review and run the predictcpu.py and predictmem.py programs
+###### To run the programs, the command is:
+
+ python3 predictcpu.py
+
+###### And:
+``
+ python3 predictmem.py
+``
+###### Change the number of replicas to project
+###### To change the number of replicas to project, edit the following file:
+``
+ vi promql2.csv
+``
+###### And then change the data column for replicas to the values you want to project.
